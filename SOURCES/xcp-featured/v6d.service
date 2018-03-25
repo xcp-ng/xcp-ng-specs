@@ -1,0 +1,14 @@
+[Unit]
+Description=XCP-ng feature daemon
+After=syslog.target
+Wants=syslog.target
+
+[Service]
+Type=notify
+Restart=on-failure
+NotifyAccess=all
+ExecStart=/opt/xensource/libexec/v6d
+StandardError=null
+
+[Install]
+WantedBy=multi-user.target

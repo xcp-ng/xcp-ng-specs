@@ -4,8 +4,8 @@ Version:        1.0.0
 Release:        1
 License:        GPLv2+
 Group:          System Environment/Base
-
-Source0:         https://code.citrite.net/rest/archive/latest/projects/XS/repos/%{name}/archive?at=v%{version}&format=tar.gz&prefix=%{name}-%{version}#/%{name}.tar.gz
+URL:            https://github.com/xcp-ng/xcp-ng-plymouth-theme
+Source0:        https://github.com/xcp-ng/xcp-ng-plymouth-theme/archive/v%{version}/xcp-ng-plymouth-theme-%{version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}
 BuildArch:      noarch

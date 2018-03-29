@@ -48,7 +48,8 @@ Provides:       product-version-text = %{PRODUCT_VERSION_TEXT}
 Provides:       produce-version-text-short = %{PRODUCT_VERSION_TEXT_SHORT}
 
 BuildRequires:  systemd branding-xenserver
-Source0:       https://code.citrite.net/rest/archive/latest/projects/XS/repos/%{name}/archive?at=v%{version}-%{release}&format=tar.gz&prefix=%{name}-%{version}#/%{name}.tar.gz
+URL:            https://github.com/xcp-ng/xcp-ng-release
+Source0:        https://github.com/xcp-ng/xcp-ng-release/archive/v%{version}/xcp-ng-release-%{version}.tar.gz
 
 %description
 XCP-ng release files

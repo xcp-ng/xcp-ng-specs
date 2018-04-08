@@ -1,5 +1,5 @@
 Name:           xcp-featured
-Version:        1.0.0
+Version:        1.0.1
 Release:        1%{?dist}
 Summary:        XCP-ng feature daemon
 Group:          System/Hypervisor
@@ -44,5 +44,8 @@ rm -f %{_libexecdir}/v6d
 %{_unitdir}/v6d.service
 
 %changelog
+* Mon Apr 09 2018 John Else <john.else@gmail.com> - 1.0.1-1
+- Add additional feature flags
+
 * Sun Mar 25 2018 John Else <john.else@gmail.com> - 1.0.0-1
 - Initial package

@@ -1,6 +1,6 @@
 Name:           xcp-featured
 Version:        1.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        XCP-ng feature daemon
 Group:          System/Hypervisor
 License:        ISC
@@ -28,15 +28,31 @@ DESTDIR=%{buildroot} LIBEXECDIR=%{_libexecdir} %{__make} install
 %{__install} -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/v6d.service
 
 %post
-ln -fs %{_libexecdir}/xcp-featured %{_libexecdir}/v6d
+case "$1" in
+  1)
+    # initial install
+    ln -fs %{_libexecdir}/xcp-featured %{_libexecdir}/v6d
+    ;;
+  2)
+    # upgrade
+    ;;
+esac
 %systemd_post v6d.service
 
 %preun
 %systemd_preun v6d.service
 
 %postun
+case "$1" in
+  0)
+    # uninstall
+    rm -f %{_libexecdir}/v6d
+    ;;
+  1)
+    # upgrade
+    ;;
+esac
 %systemd_postun v6d.service
-rm -f %{_libexecdir}/v6d
 
 %files
 %ghost %{_libexecdir}/v6d
@@ -44,6 +60,9 @@ rm -f %{_libexecdir}/v6d
 %{_unitdir}/v6d.service
 
 %changelog
+* Wed Apr 25 2018 John Else <john.else@gmail.com> - 1.0.1-2
+- Prevent symlink deletion on upgrade
+
 * Mon Apr 09 2018 John Else <john.else@gmail.com> - 1.0.1-1
 - Add additional feature flags
 

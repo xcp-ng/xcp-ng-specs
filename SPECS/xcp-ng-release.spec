@@ -79,11 +79,6 @@ rm -rf %{buildroot}
 %{_usrsrc}/branding/brand-directory.py /usr/src/branding/branding src/common %{buildroot}
 %{_usrsrc}/branding/brand-directory.py /usr/src/branding/branding src/xenserver %{buildroot}
 
-install -m 644 %{_usrsrc}/branding/xenserver/EULA %{buildroot}/
-install -D -m 644 \
-    %{_usrsrc}/branding/xenserver/LICENSES \
-    %{buildroot}%{_defaultdocdir}/XenServer/LICENSES
-
 # create /etc/system-release and /etc/redhat-release
 ln -s centos-release %{buildroot}%{_sysconfdir}/system-release
 ln -s centos-release %{buildroot}%{_sysconfdir}/redhat-release
@@ -492,8 +487,6 @@ fi
 %{_datadir}/redhat-release
 %{_datadir}/centos-release
 %{_prefix}/lib/systemd/system-preset/*
-/EULA
-%{_docdir}/XenServer/LICENSES
 
 %files config
 %defattr(0644,root,root,0755)

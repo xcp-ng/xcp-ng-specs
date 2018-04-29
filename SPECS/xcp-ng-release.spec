@@ -76,8 +76,8 @@ Additional utilities and configuration for XCP-ng.
 %install
 rm -rf %{buildroot}
 
-%{_usrsrc}/branding/brand-directory.py src/common %{buildroot}
-%{_usrsrc}/branding/brand-directory.py src/xenserver %{buildroot}
+%{_usrsrc}/branding/brand-directory.py /usr/src/branding/branding src/common %{buildroot}
+%{_usrsrc}/branding/brand-directory.py /usr/src/branding/branding src/xenserver %{buildroot}
 
 install -m 644 %{_usrsrc}/branding/xenserver/EULA %{buildroot}/
 install -D -m 644 \

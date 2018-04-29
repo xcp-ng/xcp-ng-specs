@@ -100,6 +100,8 @@ install -m 644 CentOS-Base-production.repo %{buildroot}%{_sysconfdir}/yum.repos.
 #install -m 644 CentOS-Base-devel.repo %{buildroot}%{_sysconfdir}/yum.repos.d/CentOS-Base.repo
 install -m 644 CentOS-Debuginfo.repo %{buildroot}%{_sysconfdir}/yum.repos.d
 install -m 644 CentOS-Sources.repo %{buildroot}%{_sysconfdir}/yum.repos.d
+# install the xcp-ng repo
+install -m 644 xcp-ng.repo %{buildroot}%{_sysconfdir}/yum.repos.d
 
 # set up the dist tag macros
 install -d -m 755 %{buildroot}%{_sysconfdir}/rpm

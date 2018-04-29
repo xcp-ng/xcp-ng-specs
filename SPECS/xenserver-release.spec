@@ -13,8 +13,8 @@
 
 %define _unitdir /usr/lib/systemd/system
 
-Name:           xcp-ng-release
-Version:        7.4.0
+Name:           xenserver-release
+Version:        7.4.0.xcp
 Release:        1
 Summary:        XCP-ng release file
 Group:          System Environment/Base
@@ -49,7 +49,7 @@ Provides:       produce-version-text-short = %{PRODUCT_VERSION_TEXT_SHORT}
 
 BuildRequires:  systemd branding-xcp-ng
 URL:            https://github.com/xcp-ng/xcp-ng-release
-Source0:        https://github.com/xcp-ng/xcp-ng-release/archive/v%{version}/xcp-ng-release-%{version}.tar.gz
+Source0:        https://github.com/xcp-ng/xcp-ng-release/archive/v%{version}/xenserver-release-%{version}.tar.gz
 
 %description
 XCP-ng release files
@@ -518,5 +518,7 @@ fi
 %attr(0755,-,-) /opt/xensource/libexec/set-printk-console
 
 %changelog
+* Sun Apr 29 2018 John Else <john.else@gmail.com>
+- Update packaging for XCP-ng
 * Wed Nov 19 2014 Ross Lagerwall <ross.lagerwall@citrix.com>
 - Initial xenserver-release packaging

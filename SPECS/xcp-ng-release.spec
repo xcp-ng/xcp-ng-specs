@@ -47,7 +47,7 @@ Provides:       platform-version = %{PLATFORM_VERSION}
 Provides:       product-version-text = %{PRODUCT_VERSION_TEXT}
 Provides:       produce-version-text-short = %{PRODUCT_VERSION_TEXT_SHORT}
 
-BuildRequires:  systemd branding-xenserver
+BuildRequires:  systemd branding-xcp-ng
 URL:            https://github.com/xcp-ng/xcp-ng-release
 Source0:        https://github.com/xcp-ng/xcp-ng-release/archive/v%{version}/xcp-ng-release-%{version}.tar.gz
 

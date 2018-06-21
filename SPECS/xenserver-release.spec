@@ -71,7 +71,7 @@ Additional utilities and configuration for XCP-ng.
 
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n xcp-ng-release-%{version}
 
 %build
 

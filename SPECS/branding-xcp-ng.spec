@@ -1,5 +1,5 @@
 Name:           branding-xcp-ng
-Version:        1.0.0
+Version:        1.0.1
 Release:        1%{?dist}
 Summary:        XCP-ng branding
 Group:          System/Hypervisor
@@ -28,5 +28,7 @@ This package contains branding information for XCP-ng.
 %exclude %{_usrsrc}/branding/*.pyo
 
 %changelog
+* Thu Jun 21 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.0.1-1
+- Update for XCP-ng 7.5.0
 * Sun Apr 29 2018 John Else <john.else@gmail.com> - 1.0.0-1
 - Initial package

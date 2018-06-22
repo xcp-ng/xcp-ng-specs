@@ -13,6 +13,12 @@
 
 %define _unitdir /usr/lib/systemd/system
 
+# TO BE UPDATED FOR EACH NEW RELEASE
+%define PRODUCT_VERSION 7.5.0
+%define PRODUCT_VERSION_TEXT 7.5
+%define PRODUCT_VERSION_TEXT_SHORT %{PRODUCT_VERSION_TEXT}
+%define PLATFORM_VERSION 2.6.0
+
 Name:           xenserver-release
 Version:        7.5.0.xcp
 Release:        1

@@ -138,6 +138,11 @@ ln -s XCP-ng-index.html %{buildroot}/opt/xensource/www/index.html
 %clean
 rm -rf %{buildroot}
 
+%post
+# switch xcp-ng repo from 7.4 to 7.x if needed
+sed -i /etc/yum.repos.d/xcp-ng.repo -e 's/name=XCP-ng 7\.4/name=XCP-ng 7.x/'
+sed -i /etc/yum.repos.d/xcp-ng.repo -e 's#baseurl=https://updates\.xcp-ng\.org/7\.4/#baseurl=https://updates.xcp-ng.org/7.x/#'
+
 %triggerin config -- mcelog
 
 ( patch -tsN -r - -d / -p1 || : ) >/dev/null <<'EOF'

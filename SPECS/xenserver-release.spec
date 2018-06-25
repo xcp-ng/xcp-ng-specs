@@ -140,8 +140,13 @@ rm -rf %{buildroot}
 
 %post
 # switch xcp-ng repo from 7.4 to 7.x if needed
-sed -i /etc/yum.repos.d/xcp-ng.repo -e 's/name=XCP-ng 7\.4/name=XCP-ng 7.x/'
-sed -i /etc/yum.repos.d/xcp-ng.repo -e 's#baseurl=https://updates\.xcp-ng\.org/7\.4/#baseurl=https://updates.xcp-ng.org/7.x/#'
+if [ $1 -gt 1 ]; then
+    if grep /etc/yum.repos.d/xcp-ng.repo -e "^name=XCP-ng 7\.4$" > /dev/null; then
+        sed -i /etc/yum.repos.d/xcp-ng.repo -e 's/name=XCP-ng 7\.4/name=XCP-ng 7.x/'
+        sed -i /etc/yum.repos.d/xcp-ng.repo -e 's#baseurl=https://updates\.xcp-ng\.org/7\.4/#baseurl=https://updates.xcp-ng.org/7.x/#'
+        yum clean all
+    fi
+fi
 
 %triggerin config -- mcelog
 

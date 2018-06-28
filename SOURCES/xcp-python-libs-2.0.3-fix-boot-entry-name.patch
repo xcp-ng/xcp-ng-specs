@@ -1,0 +1,16 @@
+Index: xcp-python-libs-2.0.3/xcp/bootloader.py
+===================================================================
+--- xcp-python-libs-2.0.3/xcp/bootloader.py
++++ xcp-python-libs-2.0.3/xcp/bootloader.py	2018-06-28 15:16:22.193980642 +0200
+@@ -312,9 +312,9 @@
+             global COUNTER
+ 
+             # FIXME use branding
+-            if title == 'XenServer':
++            if title == 'XCP-ng':
+                 return 'xe'
+-            if title == 'XenServer (Trusted Boot)':
++            if title == 'XCP-ng (Trusted Boot)':
+                 return 'xe-tboot'
+ 
+             if title.endswith('(Serial)'):

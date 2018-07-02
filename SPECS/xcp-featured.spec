@@ -1,6 +1,6 @@
 Name:           xcp-featured
-Version:        1.0.1
-Release:        2%{?dist}
+Version:        1.1.0
+Release:        1%{?dist}
 Summary:        XCP-ng feature daemon
 Group:          System/Hypervisor
 License:        ISC
@@ -60,6 +60,9 @@ esac
 %{_unitdir}/v6d.service
 
 %changelog
+* Mon Jul 02 2018 John Else <john.else@gmail.com> - 1.1.0-1
+- Update to build against new RPC library
+
 * Wed Apr 25 2018 John Else <john.else@gmail.com> - 1.0.1-2
 - Prevent symlink deletion on upgrade
 

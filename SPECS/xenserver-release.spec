@@ -13,8 +13,14 @@
 
 %define _unitdir /usr/lib/systemd/system
 
+# TO BE UPDATED FOR EACH NEW RELEASE
+%define PRODUCT_VERSION 7.5.0
+%define PRODUCT_VERSION_TEXT 7.5
+%define PRODUCT_VERSION_TEXT_SHORT %{PRODUCT_VERSION_TEXT}
+%define PLATFORM_VERSION 2.6.0
+
 Name:           xenserver-release
-Version:        7.4.0.xcp
+Version:        7.5.0.xcp
 Release:        1
 Summary:        XCP-ng release file
 Group:          System Environment/Base
@@ -33,10 +39,12 @@ Obsoletes:      control-xscontainer = 1.0-1
 Obsoletes:      control-xenserver-measured-boot = 1.0-1
 Obsoletes:      control-pvsaccelerator = 1.0-1
 
-#Obsolete XS73 hotfixes
+#Obsolete XS73+XS74 hotfixes
 Obsoletes:      update-XS73 control-XS73
 Obsoletes:      update-XS73E001 control-XS73E001
 Obsoletes:      update-XS73E002 control-XS73E002
+Obsoletes:      update-XS73E003 control-XS73E003
+Obsoletes:      update-XS74 control-XS74
 
 # Metadata for the installer to consume
 Provides:       product-brand = XCP-ng
@@ -49,7 +57,7 @@ Provides:       produce-version-text-short = %{PRODUCT_VERSION_TEXT_SHORT}
 
 BuildRequires:  systemd branding-xcp-ng
 URL:            https://github.com/xcp-ng/xcp-ng-release
-Source0:        https://github.com/xcp-ng/xcp-ng-release/archive/v%{version}/xenserver-release-%{version}.tar.gz
+Source0:        https://github.com/xcp-ng/xcp-ng-release/archive/v%{version}/xcp-ng-release-%{version}.tar.gz
 
 %description
 XCP-ng release files
@@ -69,7 +77,7 @@ Additional utilities and configuration for XCP-ng.
 
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n xcp-ng-release-%{version}
 
 %build
 
@@ -129,6 +137,16 @@ ln -s XCP-ng-index.html %{buildroot}/opt/xensource/www/index.html
 
 %clean
 rm -rf %{buildroot}
+
+%post
+# switch xcp-ng repo from 7.4 to 7.x if needed
+if [ $1 -gt 1 ]; then
+    if grep /etc/yum.repos.d/xcp-ng.repo -e "^name=XCP-ng 7\.4$" > /dev/null; then
+        sed -i /etc/yum.repos.d/xcp-ng.repo -e 's/name=XCP-ng 7\.4/name=XCP-ng 7.x/'
+        sed -i /etc/yum.repos.d/xcp-ng.repo -e 's#baseurl=https://updates\.xcp-ng\.org/7\.4/#baseurl=https://updates.xcp-ng.org/7.x/#'
+        yum clean all
+    fi
+fi
 
 %triggerin config -- mcelog
 
@@ -431,13 +449,13 @@ EOF
  distroverpkg=centos-release
 EOF
 
-# Hide previous 7.3 hotfixs from xapi
-%triggerun config -- %{name}-config = 7.3.0
+# Hide previous 7.3+7.4 hotfixes from xapi
+%triggerun config -- %{name}-config = 7.3.0, %{name}-config = 7.4.0
 if [ -d /var/update/applied ]; then
     shopt -s nullglob
     for sfile in /var/update/applied/*; do
         label=$(xmllint --xpath "string(//update/@name-label)" $sfile)
-        if [[ "$label" =~ ^XS73(E[0-9]{3}$|$) ]]; then
+        if [[ "$label" =~ ^XS7[34](E[0-9]{3}$|$) ]]; then
             rm -f $sfile
         fi
     done

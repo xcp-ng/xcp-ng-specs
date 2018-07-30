@@ -3,7 +3,7 @@
 
 Name: xcp-ng-pv-tools
 Version: 7.29.0
-Release: 1
+Release: 2
 Summary: ISO with the Linux PV Tools
 License: GPLv2
 # Until we're ready to build the tools ourselves, we'll extract the linux tools from XenServer's RPM
@@ -32,7 +32,10 @@ chmod u+w iso/ -R
 pushd iso
 /bin/rm AUTORUN.INF copyright.txt EULA *.exe *.msi
 popd
-ls -al
+# fix exec permissions
+pushd iso/Linux
+chmod a+x install.sh xe-daemon xe-linux-distribution
+popd
 genisoimage -joliet -joliet-long -r \
             -A "XCP-ng Tools" \
             -V "XCP-ng Tools" \

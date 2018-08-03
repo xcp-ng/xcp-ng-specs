@@ -3,11 +3,12 @@
 
 Name: xcp-ng-pv-tools
 Version: 7.29.0
-Release: 2
+Release: 2.1.xcp
 Summary: ISO with the Linux PV Tools
 License: GPLv2
 # Until we're ready to build the tools ourselves, we'll extract the linux tools from XenServer's RPM
 Source0: xenserver-pv-tools-%{xs_tools_version}-%{xs_tools_release}.noarch.rpm
+Source1: README.txt.patch
 BuildArch: noarch
 BuildRequires: cpio
 BuildRequires: genisoimage
@@ -31,6 +32,8 @@ rpm2cpio %{SOURCE0} | cpio -idmv
 chmod u+w iso/ -R
 pushd iso
 /bin/rm AUTORUN.INF copyright.txt EULA *.exe *.msi
+# patch readme
+patch -p0 < %{SOURCE1}
 popd
 # fix exec permissions
 pushd iso/Linux
@@ -67,7 +70,10 @@ rm -rf %{buildroot}
 /%{xensource}/libexec/
 
 %changelog
-* Wed Jun 27 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.29.0
+* Fri Aug 03 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.29.0-2.1.xcp
+- Update README.txt
+
+* Wed Jun 27 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.29.0-2
 - Rename to xp-ng-pv-tools
 - Remove proprietary Windows tools
 

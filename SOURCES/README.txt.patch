@@ -1,0 +1,35 @@
+Index: README.txt
+===================================================================
+--- README.txt
++++ README.txt	2018-08-03 17:37:12.458131520 +0200
+@@ -1,7 +1,7 @@
+-Citrix XenServer Tools
+-======================
++XCP-ng Tools for Linux (and a word about Windows)
++=================================================
+ 
+-This CD contains the Citrix XenServer Tools and Drivers for supported
++This CD contains the XCP-ng Tools and Drivers for supported linux
+ guest operating systems. You will need to install them to get the best
+ performance from your virtual machine, and to access advanced features
+ such as XenMotion.
+@@ -9,10 +9,15 @@
+ Windows
+ -------
+ 
+-Windows users should install the Windows drivers using the setup.exe 
+-installer application in the top-level of this CD. This setup 
+-utility will install the latest versions of the drivers, and 
+-automatically upgrade any older versions.
++We are not allowed to redistribute the windows tools built and signed by
++Citrix, so they are not included here.
++
++If you are using Xen Orchestra, you can switch the "Windows Update tools"
++advanced parameter on from the "Advanced" tab of the VM view. This will
++allow you to install the tools directly from Windows Updates.
++
++Any help in building the tools from the sources to add them back in this
++ISO image is welcome. See https://github.com/xcp-ng/xcp/issues/23
+ 
+ Linux
+ -----

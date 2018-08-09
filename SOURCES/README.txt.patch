@@ -1,7 +1,5 @@
-Index: README.txt
-===================================================================
---- README.txt
-+++ README.txt	2018-08-03 17:37:12.458131520 +0200
+--- README.txt.orig	2018-05-21 19:08:23.000000000 +0200
++++ README.txt	2018-08-09 11:25:55.763472665 +0200
 @@ -1,7 +1,7 @@
 -Citrix XenServer Tools
 -======================
@@ -13,7 +11,7 @@ Index: README.txt
  guest operating systems. You will need to install them to get the best
  performance from your virtual machine, and to access advanced features
  such as XenMotion.
-@@ -9,10 +9,15 @@
+@@ -9,10 +9,16 @@
  Windows
  -------
  
@@ -28,8 +26,18 @@ Index: README.txt
 +advanced parameter on from the "Advanced" tab of the VM view. This will
 +allow you to install the tools directly from Windows Updates.
 +
-+Any help in building the tools from the sources to add them back in this
-+ISO image is welcome. See https://github.com/xcp-ng/xcp/issues/23
++Work is in progress for building them from the sources to add them back 
++in this ISO image. Any form of help is welcome.
++See https://github.com/xcp-ng/xcp/issues/23
  
  Linux
  -----
+@@ -23,7 +29,7 @@
+ 
+ In addition, we have provided a number of kernel files, which are mostly
+ based on the vendor-provided kernels, but provide specific enhancements
+-for improved stability and performance when running on XenServer.
++for improved stability and performance when running on XCP-ng.
+ 
+ You can install the required packages by running install.sh like so:
+ 

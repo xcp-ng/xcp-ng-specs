@@ -1,9 +1,9 @@
-%define xs_tools_version 7.32.0
-%define xs_tools_release 2
+%define xs_tools_version 7.41.0
+%define xs_tools_release 1
 
 Name: xcp-ng-pv-tools
-Version: 7.32.0
-Release: 2.1.xcp
+Version: %{xs_tools_version}
+Release: 1%{?dist}
 Summary: ISO with the Linux PV Tools
 License: GPLv2
 # Until we're ready to build the tools ourselves, we'll extract the linux tools from XenServer's RPM
@@ -70,6 +70,9 @@ rm -rf %{buildroot}
 /%{xensource}/libexec/
 
 %changelog
+* Thu May 09 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.41.0-1
+- Update for XCP-ng 8.0.0
+
 * Fri Sep 14 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.32.0-2.1.xcp
 - Update for XCP-ng 7.6.0
 

@@ -3,9 +3,10 @@
 
 Name: xcp-ng-pv-tools
 Version: %{xs_tools_version}
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: ISO with the Linux PV Tools
 License: GPLv2
+Vendor: XCP-ng
 # Until we're ready to build the tools ourselves, we'll extract the linux tools from XenServer's RPM
 Source0: xenserver-pv-tools-%{xs_tools_version}-%{xs_tools_release}.noarch.rpm
 Source1: README.txt.patch

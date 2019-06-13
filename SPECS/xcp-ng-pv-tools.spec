@@ -3,13 +3,14 @@
 
 Name: xcp-ng-pv-tools
 Version: %{xs_tools_version}
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: ISO with the Linux PV Tools
 License: GPLv2
 Vendor: XCP-ng
 # Until we're ready to build the tools ourselves, we'll extract the linux tools from XenServer's RPM
 Source0: xenserver-pv-tools-%{xs_tools_version}-%{xs_tools_release}.noarch.rpm
 Source1: README.txt.patch
+Source2: xcp-ng-pv-tools-7.41.0-fix-installation-on-CoreOS.XCP-ng.patch
 BuildArch: noarch
 BuildRequires: cpio
 BuildRequires: genisoimage
@@ -38,6 +39,8 @@ patch -p0 < %{SOURCE1}
 popd
 # fix exec permissions
 pushd iso/Linux
+# patch install.sh
+patch -p1 < %{SOURCE2}
 chmod a+x install.sh xe-daemon xe-linux-distribution
 popd
 genisoimage -joliet -joliet-long -r \
@@ -71,6 +74,9 @@ rm -rf %{buildroot}
 /%{xensource}/libexec/
 
 %changelog
+* Thu Jun 13 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.41.0-3
+- Fix installation of linux guest tools on CoreOS
+
 * Thu May 09 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.41.0-1
 - Update for XCP-ng 8.0.0
 

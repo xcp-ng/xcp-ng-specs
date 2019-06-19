@@ -3,7 +3,7 @@
 
 Name: xcp-ng-pv-tools
 Version: %{xs_tools_version}
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: ISO with the Linux PV Tools
 License: GPLv2
 Vendor: XCP-ng
@@ -11,6 +11,7 @@ Vendor: XCP-ng
 Source0: xenserver-pv-tools-%{xs_tools_version}-%{xs_tools_release}.noarch.rpm
 Source1: README.txt.patch
 Source2: xcp-ng-pv-tools-7.41.0-fix-installation-on-CoreOS.XCP-ng.patch
+Source3: xcp-ng-pv-tools-7.41.0-add-SLES-15-SP1-support.backport.patch
 BuildArch: noarch
 BuildRequires: cpio
 BuildRequires: genisoimage
@@ -41,6 +42,9 @@ popd
 pushd iso/Linux
 # patch install.sh
 patch -p1 < %{SOURCE2}
+# other patches
+patch -p1 < %{SOURCE3}
+
 chmod a+x install.sh xe-daemon xe-linux-distribution
 popd
 genisoimage -joliet -joliet-long -r \
@@ -74,6 +78,9 @@ rm -rf %{buildroot}
 /%{xensource}/libexec/
 
 %changelog
+* Wed Jun 19 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.41.0-4
+- Backport support for SLES 15 SP1
+
 * Thu Jun 13 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.41.0-3
 - Fix installation of linux guest tools on CoreOS
 

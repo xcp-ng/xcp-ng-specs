@@ -1,0 +1,24 @@
+Support for reading the os-release file of SLES 15 SP1
+
+Values to be understood:
+VERSION="15-SP1"
+PRETTY_NAME="SUSE Linux Enterprise Server 15 SP1"
+
+diff --git a/xe-linux-distribution b/xe-linux-distribution
+index a5f1b2a..dc35b2b 100755
+--- a/xe-linux-distribution
++++ b/xe-linux-distribution
+@@ -222,11 +222,11 @@ identify_sles()
+     fi
+ 
+     eval $(sed -n \
++	       -e 's/^VERSION_ID="\([0-9]*\)\.\?\([0-9]*\)\?"$/major=\1;minor=\2;/gp' \
++	       -e 's/^PRETTY_NAME="SUSE L\(inux\|INUX\) Enterprise \([a-zA-Z0-9_]*\) \([0-9]*\)\( SP[0-9]*\)\?"/_major=\3;_pretty_name=\0;/gp' \
+                -e 's/^SUSE L\(inux\|INUX\) Enterprise \([a-zA-Z0-9_]*\) \([0-9]*\) (.*)/_major=\3;_pretty_name="\0";/gp;' \
+                -e 's/^VERSION = \([0-9]*\)$/major=\1;/gp;' \
+                -e 's/^PATCHLEVEL = \([0-9]*\)$/minor=\1;/gp;' \
+-	       -e 's/^PRETTY_NAME="SUSE L\(inux\|INUX\) Enterprise \([a-zA-Z0-9_]*\) \([0-9]*\)"/_major=\3;_pretty_name=\0;/gp' \
+-	       -e 's/^VERSION="\([0-9]*\)"$/major=\1;/gp' \
+ 	       "${suse_release}")
+ 
+     if [ -z "${major}" -o -z "${_major}" ] ; then

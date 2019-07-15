@@ -1,5 +1,5 @@
---- README.txt.orig	2019-05-09 11:07:55.858339710 +0000
-+++ README.txt	2018-08-09 09:25:55.763472665 +0000
+--- README.txt.orig	2019-05-09 13:07:55.858339710 +0200
++++ README.txt	2019-07-15 15:51:22.164053121 +0200
 @@ -1,7 +1,7 @@
 -Citrix Hypervisor Tools
 -======================
@@ -11,7 +11,7 @@
  guest operating systems. You will need to install them to get the best
  performance from your virtual machine, and to access advanced features
  such as XenMotion.
-@@ -9,10 +9,16 @@
+@@ -9,10 +9,11 @@
  Windows
  -------
  
@@ -22,22 +22,26 @@
 +We are not allowed to redistribute the windows tools built and signed by
 +Citrix, so they are not included here.
 +
-+If you are using Xen Orchestra, you can switch the "Windows Update tools"
-+advanced parameter on from the "Advanced" tab of the VM view. This will
-+allow you to install the tools directly from Windows Updates.
-+
-+Work is in progress for building them from the sources to add them back 
-+in this ISO image. Any form of help is welcome.
-+See https://github.com/xcp-ng/xcp/issues/23
++Refer to our wiki for instructions:
++https://github.com/xcp-ng/xcp/wiki/Guest-Tools#windows-guest-tools
  
  Linux
  -----
-@@ -23,7 +29,7 @@
+@@ -23,7 +24,9 @@
  
  In addition, we have provided a number of kernel files, which are mostly
  based on the vendor-provided kernels, but provide specific enhancements
 -for improved stability and performance when running on Citrix Hypervisor.
-+for improved stability and performance when running on XCP-ng.
++for improved stability and performance when running on XCP-ng. 
++Those are only required for very old VMs since the linux kernel has
++included xen drivers by default for many years now.
  
  You can install the required packages by running install.sh like so:
  
+@@ -33,3 +36,6 @@
+ 
+ To omit the kernel upgrade pass the -k flag to install.sh.
+ 
++More information on our wiki at:
++https://github.com/xcp-ng/xcp/wiki/Guest-Tools#linux-guest-tools
++

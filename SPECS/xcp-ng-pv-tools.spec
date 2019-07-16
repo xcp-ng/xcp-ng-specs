@@ -3,7 +3,7 @@
 
 Name: xcp-ng-pv-tools
 Version: %{xs_tools_version}
-Release: 4%{?dist}
+Release: 6%{?dist}
 Summary: ISO with the Linux PV Tools
 License: GPLv2
 Vendor: XCP-ng
@@ -78,6 +78,9 @@ rm -rf %{buildroot}
 /%{xensource}/libexec/
 
 %changelog
+* Mon Jul 15 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.41.0-6
+- Update README.txt with up to date links for Windows guest tools
+
 * Wed Jun 19 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.41.0-4
 - Backport support for SLES 15 SP1
 

@@ -1,0 +1,122 @@
+diff --git a/mk/install.sh b/mk/install.sh
+index 73ca7bf..e58f477 100755
+--- a/install.sh
++++ b/install.sh
+@@ -131,10 +131,13 @@ select_pkgs_rhel()
+ 	rhel6|centos6|oracle6|scientific6|neokylin5|neokylin6|asianux4|turbo12)
+ 	    # No additional kernel package
+ 	    ;;
+-	rhel7|centos7|oracle7|scientific7|neokylin7)
++	rhel7|centos7|oracle7|scientific7|neokylin7|cloudlinux7)
+ 	    # No additional kernel package
+ 	    ;;
+-	rhel8|centos8|oracle8|scientific8|neokylin8)
++	rhel8|centos8|oracle8|scientific8|neokylin8|cloudlinux8)
++	    # No additional kernel package
++	    ;;
++	alpine3*|sangoma*)
+ 	    # No additional kernel package
+ 	    ;;
+ 	rhel3|fedora*)
+@@ -510,6 +513,7 @@ install_coreos()
+ case "${os_distro}" in
+     rhel|centos|oracle|fedora)         select_pkgs_rhel ;;
+     scientific|neokylin|asianux|turbo) select_pkgs_rhel ;;
++    alpine|cloudlinux|sangoma)         select_pkgs_rhel ;;
+     sles|"suse linux")                 select_pkgs_sles ;;
+     debian|ubuntu|linx|yinhe)          select_pkgs_debian ;;
+     xe-ddk|xe-sdk)                     select_pkgs_xe ;;
+diff --git a/mk/xe-linux-distribution b/mk/xe-linux-distribution
+index a5f1b2a..439df90 100755
+--- a/xe-linux-distribution
++++ b/xe-linux-distribution
+@@ -124,6 +124,11 @@ identify_redhat()
+     # CentOS release 5 (Final)
+     # CentOS Linux release 7.0.1406 (Core)
+ 
++    # distro=cloudlinux
++    # CloudLinux Server release 6.10 (Vladimir Lyakhov)
++    # CloudLinux Linux release 6.9
++    # CloudLinux release 7.7 (Valery Bykovsky)
++
+     # distro=scientific
+     # Scientific Linux release 6.5 (Carbon)
+ 
+@@ -148,6 +153,8 @@ identify_redhat()
+                -e 's/^CentOS release \([0-9]*\)\.\([0-9]*\) (.*)/distro=centos;major=\1;minor=\2/gp;' \
+                -e 's/^CentOS release \([0-9]*\) (.*)/distro=centos;major=\1/gp;' \
+                -e 's/^CentOS Linux release \([0-9]*\)\.\([0-9]*\)\(\.[0-9]*\)\? (.*)/distro=centos;major=\1;minor=\2/gp;' \
++	       -e 's/^CloudLinux\( Linux|Server\)\? release \([0-9]*\)\.\([0-9]*\)\(\.[0-9]*\)\? (.*)/distro=cloudlinux;major=\2;minor=\1/gp;' \
++	       -e 's/^CloudLinux release \([0-9]*\)\.\([0-9]*\)\(\.[0-9]*\)\? (.*)/distro=cloudlinux;major=\1;minor=\2/gp;' \
+                -e 's/^Enterprise Linux Enterprise Linux .* release \([0-9]*\)\.\([0-9]*\) (.*)$/distro=oracle;major=\1;minor=\2;/gp;' \
+                -e 's/^Enterprise Linux Enterprise Linux .* release \([0-9]*\) (.*)$/distro=oracle;major=\1/gp;' \
+                -e 's/^Oracle Linux Server release \([0-9]*\)\.\([0-9]*\)$/distro=oracle;major=\1;minor=\2/gp;' \
+@@ -354,6 +361,35 @@ identify_asianux()
+     write_to_output "${distro}" "${major}" "${minor}" "$(head -n 1 ${asianux_release})"
+ }
+ 
++identify_sangoma()
++{
++    sangoma_release="$1"
++    local distro
++    local major
++    local minor
++
++    # distro
++    # 'Sangoma Linux (FreePBX)'
++
++    if [ ! -f "${sangoma_release}" ] ; then
++	return 1
++    fi
++
++    eval $(sed -rn \
++              's/^Sangoma Linux release \([0-9]*\)\.\([0-9]*\)\(\.[0-9]*\)\? (.*)/distro=sangoma;major=\1;minor=\2/gp;' \
++              "${sangoma_release}")
++
++    if [ -z "${major}" -o -z "${distro}" ] ; then
++        return 1
++    fi
++
++    if [ -z "${minor}" ] ; then
++        minor=0
++    fi
++
++    write_to_output "${distro}" "${major}" "${minor}" "$(head -n 1 ${sangoma_release})"
++}
++
+ identify_turbo()
+ {
+     turbo_release="$1"
+@@ -462,6 +498,23 @@ identify_boot2docker()
+ 
+ }
+ 
++identify_alpine()
++{
++    # only tested with Alpine 3.7+
++    alpine_release="$1"
++    local major
++    local minor
++
++    if [ ! -f "${alpine_release}" ]; then
++        return 1
++    fi
++
++    major=$(awk -F. '{printf("%s", $1)}' ${alpine_release})
++    minor=$(awk -F. '{printf("%s.%s", $2, $3)}' ${alpine_release})
++
++    write_to_output "alpine" "${major}" "${minor}" "Alpine Linux $(head -n 1 ${alpine_release})"
++}
++
+ if [ $# -eq 1 ] ; then
+     exec 1>"$1"
+ fi
+@@ -484,6 +537,8 @@ if [ -z "${TEST}" ] ; then
+     identify_lsb lsb_release         && exit 0
+     identify_debian /etc/debian_version && exit 0
+     identify_boot2docker /etc/boot2docker && exit 0
++    identify_alpine /etc/alpine-release && exit 0
++    identify_sangoma /etc/centos-release && exit 0
+ 
+ 
+     if [ $# -eq 1 ] ; then

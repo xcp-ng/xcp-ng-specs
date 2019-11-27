@@ -3,7 +3,7 @@
 
 Name: xcp-ng-pv-tools
 Version: %{xs_tools_version}
-Release: 8%{?dist}
+Release: 9%{?dist}
 Summary: ISO with the Linux PV Tools
 License: GPLv2
 Vendor: XCP-ng
@@ -13,7 +13,7 @@ Source1: README.txt.patch
 Source2: xcp-ng-pv-tools-7.41.0-fix-installation-on-CoreOS.XCP-ng.patch
 Source3: xcp-ng-pv-tools-7.41.0-add-SLES-15-SP1-support.backport.patch
 Source4: xcp-ng-pv-tools-7.41.0-add-RHEL-8-and-derivatives.XCP-ng.patch
-Source5: xcp-ng-pv-tools-7.41.0-add-cloudlinux-sangoma-alpine.XCP-ng.patch
+Source5: xcp-ng-pv-tools-7.41.0-add-cloudlinux-and-sangoma.XCP-ng.patch
 BuildArch: noarch
 BuildRequires: cpio
 BuildRequires: genisoimage
@@ -82,10 +82,9 @@ rm -rf %{buildroot}
 /%{xensource}/libexec/
 
 %changelog
-* Wed Oct 16 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.41.0-8
+* Wed Oct 16 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.41.0-9
 - Add detection of CloudLinux
 - Add detection of FreePBX (Sangoma Linux)
-- Add detection of Alpine Linux
 
 * Tue Oct 15 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.41.0-7
 - Add support for RHEL 8 and derivatives in install.sh

@@ -10,8 +10,8 @@ index 73ca7bf..90e5399 100755
 +	rhel7|centos7|oracle7|scientific7|neokylin7|cloudlinux7)
  	    # No additional kernel package
  	    ;;
--	rhel8|centos8|oracle8|scientific8|neokylin8)
-+	rhel8|centos8|oracle8|scientific8|neokylin8|cloudlinux8)
+-    rhel8|oracle8|centos8)
++    rhel8|oracle8|centos8|cloudlinux8)
 +	    # No additional kernel package
 +	    ;;
 +	sangoma*)

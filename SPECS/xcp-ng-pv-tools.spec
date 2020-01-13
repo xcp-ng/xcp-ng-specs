@@ -1,9 +1,9 @@
-%define xs_tools_version 7.41.0
-%define xs_tools_release 1
+%define xs_tools_version 7.45.0
+%define xs_tools_release 3
 
 Name: xcp-ng-pv-tools
 Version: %{xs_tools_version}
-Release: 10%{?dist}
+Release: 1%{?dist}
 Summary: ISO with the Linux PV Tools
 License: GPLv2
 Vendor: XCP-ng
@@ -12,10 +12,7 @@ Source0: xenserver-pv-tools-%{xs_tools_version}-%{xs_tools_release}.noarch.rpm
 # Below are patches that need to be applied to the contents of the ISO,
 # So we label them as SourceX and apply them after unpacking the ISO.
 Source1: README.txt.patch
-Source2: xcp-ng-pv-tools-7.41.0-fix-installation-on-CoreOS.XCP-ng.patch
-Source3: xcp-ng-pv-tools-7.41.0-add-SLES-15-SP1-support.backport.patch
-Source4: xcp-ng-pv-tools-7.41.0-add-RHEL-8-and-derivatives.XCP-ng.patch
-Source5: xcp-ng-pv-tools-7.41.0-add-cloudlinux-and-sangoma.XCP-ng.patch
+Source2: xcp-ng-pv-tools-7.45.0-add-cloudlinux-and-sangoma.XCP-ng.patch
 # Now regular patches to things outside the ISO
 # We still need to apply them manually for now
 Patch0: xcp-ng-pv-tools-7.41.0-eject-cd-for-all-VMs.XCP-ng.patch
@@ -48,12 +45,8 @@ patch -p0 < %{SOURCE1}
 popd
 # fix exec permissions
 pushd iso/Linux
-# patch install.sh
+# apply other patches
 patch -p1 < %{SOURCE2}
-# other patches
-patch -p1 < %{SOURCE3}
-patch -p1 < %{SOURCE4}
-patch -p1 < %{SOURCE5}
 
 chmod a+x install.sh xe-daemon xe-linux-distribution
 popd
@@ -88,6 +81,13 @@ rm -rf %{buildroot}
 /%{xensource}/libexec/
 
 %changelog
+* Mon Jan 13 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.45.0-1
+- Update for XCP-ng 8.1
+- Remove xcp-ng-pv-tools-7.41.0-add-RHEL-8-and-derivatives.XCP-ng.patch
+- Remove xcp-ng-pv-tools-7.41.0-add-SLES-15-SP1-support.backport.patch
+- Remove xcp-ng-pv-tools-7.41.0-fix-installation-on-CoreOS.XCP-ng.patch
+- Update and rename xcp-ng-pv-tools-7.45.0-add-cloudlinux-and-sangoma.XCP-ng.patch
+
 * Wed Nov 27 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.41.0-10
 - Eject mounted guest tools from all VMs, not just halted VMs
 - Related to https://github.com/xcp-ng/xcp/issues/282

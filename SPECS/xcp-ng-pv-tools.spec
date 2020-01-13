@@ -3,17 +3,22 @@
 
 Name: xcp-ng-pv-tools
 Version: %{xs_tools_version}
-Release: 9%{?dist}
+Release: 10%{?dist}
 Summary: ISO with the Linux PV Tools
 License: GPLv2
 Vendor: XCP-ng
 # Until we're ready to build the tools ourselves, we'll extract the linux tools from XenServer's RPM
 Source0: xenserver-pv-tools-%{xs_tools_version}-%{xs_tools_release}.noarch.rpm
+# Below are patches that need to be applied to the contents of the ISO,
+# So we label them as SourceX and apply them after unpacking the ISO.
 Source1: README.txt.patch
 Source2: xcp-ng-pv-tools-7.41.0-fix-installation-on-CoreOS.XCP-ng.patch
 Source3: xcp-ng-pv-tools-7.41.0-add-SLES-15-SP1-support.backport.patch
 Source4: xcp-ng-pv-tools-7.41.0-add-RHEL-8-and-derivatives.XCP-ng.patch
 Source5: xcp-ng-pv-tools-7.41.0-add-cloudlinux-and-sangoma.XCP-ng.patch
+# Now regular patches to things outside the ISO
+# We still need to apply them manually for now
+Patch0: xcp-ng-pv-tools-7.41.0-eject-cd-for-all-VMs.XCP-ng.patch
 BuildArch: noarch
 BuildRequires: cpio
 BuildRequires: genisoimage
@@ -33,6 +38,7 @@ ISO with the Linux PV Tools
 
 %build
 rpm2cpio %{SOURCE0} | cpio -idmv
+patch -p1 < %{PATCH0}
 7z x %{xensource}/packages/iso/guest-tools-*.iso -oiso
 chmod u+w iso/ -R
 pushd iso
@@ -82,6 +88,10 @@ rm -rf %{buildroot}
 /%{xensource}/libexec/
 
 %changelog
+* Wed Nov 27 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.41.0-10
+- Eject mounted guest tools from all VMs, not just halted VMs
+- Related to https://github.com/xcp-ng/xcp/issues/282
+
 * Wed Oct 16 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.41.0-9
 - Add detection of CloudLinux
 - Add detection of FreePBX (Sangoma Linux)

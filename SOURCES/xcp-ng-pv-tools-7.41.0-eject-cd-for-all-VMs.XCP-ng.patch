@@ -1,0 +1,24 @@
+Eject CD for all VMs, not just halted VMs.
+
+This avoids VDI missing errors when:
+- A running VM that had the guest tools ISO mounted is rebooted
+- A running VM that had the guest tools ISO mounted is migrated intra pool
+
+Related to https://github.com/xcp-ng/xcp/issues/282
+
+Index: xcp-ng-pv-tools-7.41.0/opt/xensource/libexec/unmount_halted_xstools.sh
+===================================================================
+--- xcp-ng-pv-tools-7.41.0/opt/xensource/libexec/unmount_halted_xstools.sh
++++ xcp-ng-pv-tools-7.41.0/opt/xensource/libexec/unmount_halted_xstools.sh	2019-11-27 17:32:44.155459754 +0100
+@@ -7,8 +7,9 @@
+ for SRID in $(xe sr-list is-tools-sr="true" params=uuid --minimal); do
+     for VDIID in $(xe vdi-list sr-uuid=${SRID} params=uuid --minimal); do
+         for VMID in $(xe vbd-list vdi-uuid=${VDIID} params=vm-uuid --minimal); do
+-            if [ $(xe vm-list uuid=${VMID} params=power-state --minimal) == 'halted' ]; then
+-                xe vm-cd-eject vm=${VMID}
++            xe vm-cd-eject vm=${VMID}
++            if [ $(xe vm-list uuid=${VMID} params=power-state --minimal) != 'halted' ]; then
++                echo "Xen tools ISO ejected from running VM (${VMID})"
+             fi
+         done
+     done

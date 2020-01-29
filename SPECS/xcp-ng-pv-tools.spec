@@ -3,7 +3,7 @@
 
 Name: xcp-ng-pv-tools
 Version: %{xs_tools_version}
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: ISO with the Linux PV Tools
 License: GPLv2
 Vendor: XCP-ng
@@ -13,6 +13,7 @@ Source0: xenserver-pv-tools-%{xs_tools_version}-%{xs_tools_release}.noarch.rpm
 # So we label them as SourceX and apply them after unpacking the ISO.
 Source1: README.txt.patch
 Source2: xcp-ng-pv-tools-7.45.0-add-cloudlinux-and-sangoma.XCP-ng.patch
+Source3: xcp-ng-pv-tools-7.45.0-fix-boot-hang-caused-by-CPU-hotplug-rule.backport.patch
 # Now regular patches to things outside the ISO
 # We still need to apply them manually for now
 Patch0: xcp-ng-pv-tools-7.41.0-eject-cd-for-all-VMs.XCP-ng.patch
@@ -47,6 +48,7 @@ popd
 pushd iso/Linux
 # apply other patches
 patch -p1 < %{SOURCE2}
+patch -p1 < %{SOURCE3}
 
 chmod a+x install.sh xe-daemon xe-linux-distribution
 popd
@@ -81,6 +83,10 @@ rm -rf %{buildroot}
 /%{xensource}/libexec/
 
 %changelog
+* Wed Jan 29 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.45.0-2
+- Add xcp-ng-pv-tools-7.45.0-fix-boot-hang-caused-by-CPU-hotplug-rule.backport.patch
+- Backported from master
+
 * Mon Jan 13 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.45.0-1
 - Update for XCP-ng 8.1
 - Remove xcp-ng-pv-tools-7.41.0-add-RHEL-8-and-derivatives.XCP-ng.patch

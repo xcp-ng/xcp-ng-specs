@@ -1,0 +1,29 @@
+From 619cd71eb45b53908e1ee3c10702289e0f1507a7 Mon Sep 17 00:00:00 2001
+From: Ross Lagerwall <ross.lagerwall@citrix.com>
+Date: Fri, 17 Jan 2020 17:08:11 +0000
+Subject: [PATCH] CA-333687: Fix boot hang caused by CPU hotplug rule
+
+The guest agent installs a udev rule which triggers when a CPU is added.
+The rule checks whether it is running under Xen using xenstore-exists,
+and then onlines the vCPU.
+
+This is problematic during boot because xenstore-exists tries to connect
+to xenstore by accessing /proc/xen/xenbus which is on a separate mount
+that either doesn't exist at that point or isn't usable. The result is a
+hang and systemd-udev-settle.service stalling boot.
+
+Fix it by simply checking for the presence of /dev/xen/xenbus to
+determine whether the agent is running under Xen.
+
+Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
+---
+ mk/xen-vcpu-hotplug.rules | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff a/xen-vcpu-hotplug.rules b/xen-vcpu-hotplug.rules
+index a28f895..0e80111 100644
+--- a/xen-vcpu-hotplug.rules
++++ b/xen-vcpu-hotplug.rules
+@@ -1 +1 @@
+-ACTION=="add", SUBSYSTEM=="cpu", RUN+="/bin/sh -c '( ! /usr/bin/xenstore-exists unique-domain-id 2>/dev/null ) || [ ! -e /sys$devpath/online ] || echo 1 > /sys$devpath/online'"
++ACTION=="add", SUBSYSTEM=="cpu", RUN+="/bin/sh -c '[ -e /dev/xen/xenbus ] && [ -e /sys$devpath/online ] && echo 1 > /sys$devpath/online'"
